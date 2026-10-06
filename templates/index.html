@@ -168,11 +168,21 @@
           body: JSON.stringify({ celsius })
         });
 
-        const data = await response.json();
+       const responseText = await response.text();
 
-        if (!response.ok) {
-          throw new Error(data.error || "Prediction failed.");
-        }
+let data;
+
+try {
+  data = JSON.parse(responseText);
+} catch (error) {
+  throw new Error(
+    `Server returned an invalid response (${response.status}).`
+  );
+}
+
+if (!response.ok) {
+  throw new Error(data.error || "Prediction failed.");
+}
 
         cValue.textContent = formatNumber(data.celsius);
         fValue.textContent = formatNumber(data.fahrenheit);
@@ -216,4 +226,3 @@
   </script>
 </body>
 </html>
-
