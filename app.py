@@ -61,12 +61,12 @@ def predict():
 
         celsius = float(data.get("celsius"))
 
-        prediction = model.predict(
-            np.array([[celsius]], dtype=float),
-            verbose=0
-        )
+        prediction = model(
+    np.array([[celsius]], dtype=float),
+    training=False
+)
 
-        fahrenheit = float(prediction[0][0])
+fahrenheit = float(prediction.numpy()[0][0])
 
         return jsonify({
             "celsius": round(celsius, 2),
